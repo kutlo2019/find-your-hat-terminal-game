@@ -36,7 +36,7 @@ function updateLocation(move) {
         case 'l':
             location[1] -= 1;
             break;
-        case 'd':
+        case 'r':
             location[1] += 1;
             break;
     }
@@ -57,57 +57,70 @@ function updateField() {
 
     while (gamePlay) {
         let move = prompt('make a move: \n')
-        console.log('My move',move);
         switch(move) {
             case 'd':
                 // check if user is out of bounds
-                let myChecker = location[0] + 1; // A downward movement increases the location[0] attribute
-                if (myChecker >= myField.length) { // Check if user CANNOT move down
+                let downChecker = location[0] + 1; // A downward movement increases the location[0] attribute
+                if (downChecker >= myField.length) { // Check if user CANNOT move down
                     // User NOT allowed to move down
                     console.log('You are out of bounds!!')
                 } else {
                     // User allowed to move down. Swap the path square and field square
                     const temp = myField[location[0]][location[1]];
-                    console.log('My field: ', myField);
-                    console.log('Temporary variable: ', temp)
-                    console.log('1st col 2nd row:? ', myField[location[0] + 1][location[1]])
                     myField[location[0]][location[1]] = myField[location[0] + 1][location[1]];
                     myField[location[0] + 1][location[1]] = temp;
-                    console.log('My field: ', myField);
-                    console.log(location)
                     updateLocation(move);
-                    console.log(location)
                     aField.field = myField;
                     aField.print();
                 }
                 break;
             case 'u':
                 // check if user is out of bounds
-                let myChecker = location[0] - 1; // A upward movement increases the location[0] attribute
-                if (myChecker < 0 ) { // Check if user CANNOT move down
-                    // User NOT allowed to move down
+                let upChecker = location[0] - 1; // A upward movement increases the location[0] attribute
+                if (upChecker < 0 ) { // Check if user CANNOT move up
+                    // User NOT allowed to move up
                     console.log('You are out of bounds!!')
                 } else {
-                    // User allowed to move down. Swap the path square and field square
+                    // User allowed to move up. Swap the path square and field square
                     const temp = myField[location[0]][location[1]];
-                    console.log('My field: ', myField);
-                    console.log('Temporary variable: ', temp)
-                    console.log('1st col 2nd row:? ', myField[location[0] - 1][location[1]])
                     myField[location[0]][location[1]] = myField[location[0] - 1][location[1]];
                     myField[location[0] - 1][location[1]] = temp;
-                    console.log('My field: ', myField);
-                    console.log(location)
                     updateLocation(move);
-                    console.log(location)
                     aField.field = myField;
                     aField.print();
                 }
                 break;
             case 'l':
-                // do something
+                 // check if user is out of bounds
+                 let leftChecker = location[1] - 1; // A left movement decreases the location[1] attribute
+                 if (leftChecker < 0 ) { // Check if user CANNOT move left
+                     // User NOT allowed to move left
+                     console.log('You are out of bounds!!')
+                 } else {
+                     // User allowed to move left. Swap the path square and field square
+                     const temp = myField[location[0]][location[1]];
+                     myField[location[0]][location[1]] = myField[location[0]][location[1] - 1];
+                     myField[location[0]][location[1] - 1] = temp;
+                     updateLocation(move);
+                     aField.field = myField;
+                     aField.print();
+                 }
                 break;
             case 'r':
-                // do something
+                 // check if user is out of bounds
+                 let rightChecker = location[1] + 1; // A right movement increases the location[1] attribute
+                 if (rightChecker >= myField[0].length ) { // Check if user CANNOT move right
+                     // User NOT allowed to move right
+                     console.log('You are out of bounds!!')
+                 } else {
+                     // User allowed to move right. Swap the path square and field square
+                     const temp = myField[location[0]][location[1]];
+                     myField[location[0]][location[1]] = myField[location[0]][location[1] + 1];
+                     myField[location[0]][location[1] + 1] = temp;
+                     updateLocation(move);
+                     aField.field = myField;
+                     aField.print();
+                 }
                 break;
             default:
                 // Do something
