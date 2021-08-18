@@ -33,17 +33,19 @@ class Field {
                 if (i === 0 && j === 0) { // This is where the asterisk belongs
                     rowArray[i] = pathCharacter;
                 } else {
-                    const pushItem = choiceArray[Math.floor(Math.random() * choiceArray.length)];
-                    console.log(pushItem)
-                    if (pushItem === fieldCharacter && fieldCounter <= numFieldChar) {
-                        fieldCounter++;
-                        rowArray.push(pushItem);
-                    } else if (pushItem === hole && holeCounter <= numHoles) {
-                        holeCounter++;
-                        rowArray.push(pushItem);
-                    } else if (pushItem === hat) {
-                        hatCounter++;
-                        choiceArray.splice(2, 1); // remove the hat from the array
+                    while (rowArray.length < boardWidth) {
+                        const pushItem = choiceArray[Math.floor(Math.random() * choiceArray.length)];
+                        if (pushItem === fieldCharacter && fieldCounter <= numFieldChar) {
+                            fieldCounter++;
+                            rowArray.push(pushItem);
+                        } else if (pushItem === hole && holeCounter <= numHoles && i >= Math.floor(boardLength / 5)) {
+                            holeCounter++;
+                            rowArray.push(pushItem);
+                        } else if (pushItem === hat && i > Math.floor(boardWidth / 3)) {
+                            hatCounter++;
+                            rowArray.push(pushItem);
+                            choiceArray.splice(2, 1); // remove the hat from the array
+                        } 
                     }
                 }
             }
@@ -53,7 +55,7 @@ class Field {
     }
 }
 
-const someField = Field.generateField(5, 5, 15);
+const someField = Field.generateField(20, 20, 20);
 
 const aField = new Field (someField);
 
