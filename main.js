@@ -16,14 +16,46 @@ class Field {
             console.log(row)
         }
     }
+
+    static generateField(boardLength, boardWidth, holePercentage) {
+        let boardArea = boardLength * boardWidth;
+        let numFieldChar = Math.floor((1 - holePercentage / 100) * (boardArea - 2)); // Keep subtracting two for the pathChar and hat
+        let numHoles =  boardArea - numFieldChar - 2; // Keep subtracting two for the pathChar and hat
+        const choiceArray = [fieldCharacter, hole, hat];
+        const newField  = [];
+        let fieldCounter = 0;
+        let holeCounter = 0;
+        let hatCounter = 0;
+        
+        for (let i = 0; i < boardLength; i++) {
+            const rowArray = [];
+            for (let j = 0; j < boardWidth; j++) {
+                if (i === 0 && j === 0) { // This is where the asterisk belongs
+                    rowArray[i] = pathCharacter;
+                } else {
+                    const pushItem = choiceArray[Math.floor(Math.random() * choiceArray.length)];
+                    console.log(pushItem)
+                    if (pushItem === fieldCharacter && fieldCounter <= numFieldChar) {
+                        fieldCounter++;
+                        rowArray.push(pushItem);
+                    } else if (pushItem === hole && holeCounter <= numHoles) {
+                        holeCounter++;
+                        rowArray.push(pushItem);
+                    } else if (pushItem === hat) {
+                        hatCounter++;
+                        choiceArray.splice(2, 1); // remove the hat from the array
+                    }
+                }
+            }
+            newField.push(rowArray);
+        }
+        return newField;
+    }
 }
 
+const someField = Field.generateField(5, 5, 15);
 
-const aField = new Field ([
-    [pathCharacter, fieldCharacter, hole],
-    [fieldCharacter, hole, fieldCharacter],
-    [fieldCharacter, hat, hole]
-])
+const aField = new Field (someField);
 
 function updateLocation(move) {
     switch(move) {
